@@ -2,29 +2,96 @@ import React, { Component } from "react";
 import { StyleSheet, Text,View,SafeAreaView,ScrollView,TouchableOpacity ,Button} from "react-native";
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
+import { SearchBar } from 'react-native-elements';
 const Separator = () => (
   <View style={styles.separator} />
 );
+
+
+
 class TimLop extends Component {
   constructor(props) {
     super(props);
     this.state = { count: 0 };
+    this.state = { isLoading: true, search: '' };
   }
+  // componentDidMount() {
+  //   return fetch('http://localhost:8080/tutor/list_class_signup/3')
+  //     .then(response => response.json())
+  //     .then(responseJson => {
+  //       this.setState(
+  //         {
+  //           isLoading: false,
+  //           dataSource: responseJson,
+  //         },
+  //         function() {
+  //           this.arrayholder = responseJson;
+  //         }
+  //       );
+  //     })
+  //     .catch(error => {
+  //       console.error(error);
+  //     });
+  // }
+
+  // search = text => {
+  //   console.log(text);
+  // };
+  // clear = () => {
+  //   this.search.clear();
+  // };
+
+  // SearchFilterFunction(text) {
+  //   //passing the inserted text in textinput
+  //   const newData = this.arrayholder.filter(function(item) {
+  //     //applying filter for the inserted text in search bar
+  //     const itemData = item.title ? item.title.toUpperCase() : ''.toUpperCase();
+  //     const textData = text.toUpperCase();
+  //     return itemData.indexOf(textData) > -1;
+  //   });
+
+  //   this.setState({
+  //     //setting the filtered newData on datasource
+  //     //After setting the data it will automatically re-render the view
+  //     dataSource: newData,
+  //     search: text,
+  //   });
+  // }
+
+  // ListViewItemSeparator = () => {
+  //   //Item sparator view
+  //   return (
+  //     <View
+  //       style={{
+  //         height: 0.3,
+  //         width: '90%',
+  //         backgroundColor: '#080808',
+  //       }}
+  //     />
+  //   );
+  // };
   
   render() {
-    //const { count } = this.state;
     return (
     
     <SafeAreaView style={styles.container}>
+      
     <View>  
       <TouchableOpacity style={{marginLeft: 15}}
         onPress={() => this.props.navigation.goBack('Trang chủ')}
-      >          
-            <Ionicons name='arrow-back' size={30} />
+      >     
+      <Ionicons name='arrow-back' size={30} />
+      <SearchBar
+          round
+          searchIcon={{ size: 30 }}
+          onChangeText={text => this.SearchFilterFunction(text)}
+          onClear={text => this.SearchFilterFunction('')}
+          placeholder="Tìm kiếm"
+          style={{marginLeft: 15}}
+      />     
+
       </TouchableOpacity>
       
-      <Text style={{ fontSize : 25,  textAlign: 'center', marginTop: -31 }}>  Yêu Cầu Gia Sư</Text>
     </View>
 
     <ScrollView horizontal={true}>

@@ -1,24 +1,57 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
   ScrollView,
+  FlatList,
 } from 'react-native';
 
 
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import {FontAwesome5, AntDesign} from '@expo/vector-icons';
 
 
 
 export default class HomeScreen extends React.Component {
-  static navigationOptions = {
-    title: 'Helloooo'
-  };
+  state = { type: '', subject: ''}
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      data: [],
+      isLoading: true
+    };
+  }
+  
   render() {
     const {navigation} = this.props;
+    const { data, isLoading } = this.state;
+
+    const getClass = async () => {
+    try {
+      const response = await fetch(
+        'http://14ee-2405-4803-fe2d-26c0-44d4-4800-2e39-2b2c.ngrok.io/student/create_class',
+        {
+          method: 'GET',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI0IiwiaWF0IjoxNjMzMzE0NDE2LCJleHAiOjE2MzMzMjUyMTZ9.qHYQdIBukuXCdyWJVXVRvrsqkgWpplM1pPX14Dak-sd04h-qZ0pcFqS3-Oq5M8qSfJ2wOnH6TKEQ8HATQRnANg'
+          },
+        }
+      );
+      const json = await response.json();
+      this.setState({ data: json });
+      console.log(json)
+    } catch (error) {
+      console.error(error);
+    } finally {
+      this.setState({ isLoading: false });
+    }
+  };
+
+
     return (
       <ScrollView style={styles.container}>
         <View style={styles.categoryContainer}>
@@ -64,128 +97,31 @@ export default class HomeScreen extends React.Component {
           
           <View style={styles.card}>
             <View style={styles.cardImgWrapper}>
-  
-            </View>
-            <View style={styles.cardInfo}>
-  
+          </View>
+
+            <View style={styles.cardInfo}>  
               <Text style={styles.cardTitle}>
-                Toán 12
+                {data.subject}
               </Text>
+
               <Text style={styles.cardDetails}>
-                Có thể nhận lớp
+                {"Có thể nhận lớp"}
               </Text>
+
               <Text style={styles.cardDetails}>
-                Địa chỉ:
+                {data.type}
               </Text>
+
               <Text style={styles.cardDetails}>
-                Học phí:
-              </Text>
-            
+                {data.fee}
+              </Text>  
+
+              </View>
             </View>
-          </View>
-          <View style={styles.card}>
-            <View style={styles.cardImgWrapper}>
-  
-            </View>
-            <View style={styles.cardInfo}>
-              <Text style={styles.cardTitle}>Văn 12</Text>
-              
-              <Text style={styles.cardDetails}>
-                Có thể nhận lớp
-              </Text>
-              <Text style={styles.cardDetails}>
-                Địa chỉ:
-              </Text>
-              <Text style={styles.cardDetails}>
-                Học phí:
-              </Text>
-            </View>
-          </View>
-          <View style={styles.card}>
-            <View style={styles.cardImgWrapper}>
-  
-            </View>
-            <View style={styles.cardInfo}>
-              <Text style={styles.cardTitle}>Lý 10</Text>
-              
-              <Text style={styles.cardDetails}>
-                Có thể nhận lớp
-              </Text>
-              <Text style={styles.cardDetails}>
-                Địa chỉ:
-              </Text>
-              <Text style={styles.cardDetails}>
-                Học phí:
-              </Text>
-            </View>
-          </View>
-          <View style={styles.card}>
-            <View style={styles.cardImgWrapper}>
-  
-            </View>
-            <View style={styles.cardInfo}>
-  
-              <Text style={styles.cardTitle}>
-                Toán 12
-              </Text>
-              <Text style={styles.cardDetails}>
-                Có thể nhận lớp
-              </Text>
-              <Text style={styles.cardDetails}>
-                Địa chỉ:
-              </Text>
-              <Text style={styles.cardDetails}>
-                Học phí:
-              </Text>
-            
-            </View>
-          </View>
-          <View style={styles.card}>
-            <View style={styles.cardImgWrapper}>
-  
-            </View>
-            <View style={styles.cardInfo}>
-  
-              <Text style={styles.cardTitle}>
-                Toán cao
-              </Text>
-              <Text style={styles.cardDetails}>
-                Có thể nhận lớp
-              </Text>
-              <Text style={styles.cardDetails}>
-                Địa chỉ:
-              </Text>
-              <Text style={styles.cardDetails}>
-                Học phí:
-              </Text>
-            
-            </View>
-          </View>
-          <View style={styles.card}>
-            <View style={styles.cardImgWrapper}>
-  
-            </View>
-            <View style={styles.cardInfo}>
-  
-              <Text style={styles.cardTitle}>
-                Toán 8
-              </Text>
-              <Text style={styles.cardDetails}>
-                Có thể nhận lớp
-              </Text>
-              <Text style={styles.cardDetails}>
-                Địa chỉ:
-              </Text>
-              <Text style={styles.cardDetails}>
-                Học phí:
-              </Text>
-            
-            </View>
-          </View>
         </View>
       </ScrollView>
     );
-  };
+  }
 
 }
 
@@ -193,29 +129,6 @@ export default class HomeScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  sliderContainer: {
-    height: 200,
-    width: '90%',
-    marginTop: 10,
-    justifyContent: 'center',
-    alignSelf: 'center',
-    borderRadius: 8,
-  },
-
-  wrapper: {},
-
-  slide: {
-    flex: 1,
-    justifyContent: 'center',
-    backgroundColor: 'transparent',
-    borderRadius: 8,
-  },
-  sliderImage: {
-    height: '100%',
-    width: '100%',
-    alignSelf: 'center',
-    borderRadius: 8,
   },
   categoryContainer: {
     flexDirection: 'row',
@@ -286,14 +199,6 @@ const styles = StyleSheet.create({
   cardImgWrapper: {
     flex: 1,
   },
-  cardImg: {
-    height: '100%',
-    width: '100%',
-    alignSelf: 'center',
-    borderRadius: 8,
-    borderBottomRightRadius: 0,
-    borderTopRightRadius: 0,
-  },
   cardInfo: {
     flex: 95,
     padding: 10,
@@ -312,5 +217,3 @@ const styles = StyleSheet.create({
     color: 'green',
   },
 })
-
-

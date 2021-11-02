@@ -1,18 +1,111 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { StyleSheet, Text, TextInput, View, TouchableOpacity} from 'react-native'
 const Separator = () => (
     <View style={styles.separator} />
   );
-const TaolopScreen = ({navigation}) => {
+
+export default TaolopScreen = () => {
+  const [user, setUser] = useState({
+    userCreateId: '',
+    maxNum: '',
+    subject: '',
+    grade: '',
+    price: '',
+    type: '',
+    numLesson: '',
+    schedule: '',
+    beginDay: '',
+    endDay: '',
+  });
+
+  const [loading, setLoading] = useState(false);
+
+  const onChangeUserCreateId = (value) => {
+    setUser({ ...user, name: value });
+  };
+
+  const onChangeMaxNum = (value) => {
+    setUser({ ...user, gender: value });
+  };
+
+  const onChangeSubject = (value) => {
+    setUser({ ...user, email: value });
+  };
+
+  const onChangeGrade = (value) => {
+    setUser({ ...user, status: value });
+  };
+  const onChangePrice = (value) => {
+    setUser({ ...user, gender: value });
+  };
+
+  const onChangeType = (value) => {
+    setUser({ ...user, email: value });
+  };
+
+  const onChangeNumLesson = (value) => {
+    setUser({ ...user, status: value });
+  };  
+  const onChangeSchedule = (value) => {
+    setUser({ ...user, gender: value });
+  };
+
+  const onChangeBeginDay = (value) => {
+    setUser({ ...user, email: value });
+  };
+
+  const onChangeEndDay = (value) => {
+    setUser({ ...user, status: value });
+  };
+
+    const saveData = () => {
+    setLoading(true);
+    var myHeaders = new Headers();
+
+    myHeaders.append(
+      'Authorization',
+      'Bearer '
+    );
+
+    myHeaders.append('Content-Type', 'application/json');
+
+    fetch('http://4b78-2405-4803-fe31-8030-7c7e-a362-b04a-74c5.ngrok.io/create_class', {
+      method: 'POST',
+      headers: myHeaders,
+      body: JSON.stringify({
+        userCreateId: user.userCreateId,
+        maxNum: user.maxNum,
+        subject: user.subject,
+        grade: user.grade,
+        price: user.price,
+        type: user.type,
+        numLesson: user.numLesson,
+        schedule: user.schedule,
+        beginDay: user.beginDay,
+        endDay: user.endDay,
+      }),
+    })
+      .then((response) => {
+        setLoading(false)
+        response.text();
+      })
+      .then((result) => console.log(result))
+      .catch((error) => console.log(error));
+  };
+
+
+
         return (
             <View style={styles.container}>
               <TextInput
+                onChangeText={(value) => onChangeSubject}
                 style={styles.textInput}
                 autoCapitalize="none"
                 placeholder="📚Môn học"
               />
               <View style={styles.fixToText}>
                 <TextInput
+                  onChangeText={(value) => onChangeGrade}
                   style={styles.textInput2}
                   autoCapitalize="none"
                   placeholder="🧑‍🏫Lớp"
@@ -33,6 +126,7 @@ const TaolopScreen = ({navigation}) => {
               />
               
               <TextInput 
+                onChangeText = {(value) => onChangeMaxNum}
                 style={styles.textInput2}
                 autoCapitalize="none"
                 placeholder="😊Số lượng"
@@ -72,7 +166,7 @@ const TaolopScreen = ({navigation}) => {
               <View style={styles.fixToText}> 
               <TouchableOpacity
                 style={styles.button}
-                onPress={() => this.props.navigation.navigate('Trang chủ')}
+                onPress={() => this.props.navigation.navigate('Lớp đã tạo')}
               >
                 <Text style={{ fontSize : 18 }} > 
                   Tạo lớp
@@ -80,7 +174,7 @@ const TaolopScreen = ({navigation}) => {
               </TouchableOpacity>  
               <TouchableOpacity
                 style={styles.button2}
-                onPress={() => this.props.navigation.navigate('Trang chủ')}
+                onPress={() => this.props.navigation.goBack('Trang chủ')}
               >
                 <Text style={{ fontSize : 18 }} > 
                   Hủy
@@ -92,7 +186,6 @@ const TaolopScreen = ({navigation}) => {
           )
 };
 
-export default TaolopScreen;
 
 const styles = StyleSheet.create({
   container: {

@@ -74,7 +74,9 @@ const CanhanScreen = () => {
       <ScrollView>
       <View style={styles.container}>
 
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => this.props.navigation.navigate('Chỉnh sửa thông tin')}
+        >
           <View style={{ position: 'absolute', left: 310, top: 30 }}>
             <FontAwesome name="gears" size={35} />
           </View>

@@ -14,6 +14,7 @@ import Timlop from './src/screens/Timlop';
 import HocTap from './src/screens/HocTap';
 import DsGiaSu from './src/screens/DsGiaSu';
 import { createStackNavigator } from '@react-navigation/stack';
+import Chinhsuathongtin from './src/screens/Chinhsuathongtin';
 
 
 
@@ -32,6 +33,7 @@ const App = () => {
         <Stack.Screen name="Tìm lớp" component={Timlop} /> 
         <Stack.Screen name="Học tập" component={HocTap} /> 
         <Stack.Screen name="Danh sách gia sư" component={DsGiaSu} /> 
+        <Stack.Screen name="Chỉnh sửa thông tin" component={Chinhsuathongtin} /> 
       </Stack.Navigator>
     </NavigationContainer>
   ); 
